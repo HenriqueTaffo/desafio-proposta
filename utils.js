@@ -2,38 +2,27 @@ const fs = require('fs');
 
 const validateProposalId = (proposal) => {
 
-    proposal = String(proposal);
-
-    console.log("separates the check code");
-    const code = proposal.substring(proposal.length - 2);
-    console.log("code", code);
-
-    console.log("separate the other digits");
-    const arrNumbers = proposal.split("", 8);
+    var localProposal = String(proposal);
+    const code = parseInt(localProposal.substring(localProposal.length - 2));
+    const arrNumbers = localProposal.split("", 8);
     var sumEven = 0;
     var sumOdd = 0;
+    var currentElement = 0;
 
-    console.log("Add the even and odd values");
     arrNumbers.forEach(element => {
-        if (element % 2 === 0) {
-            sumEven += element;
-        } else {
-            sumOdd += element;
+        currentElement = parseInt(element);
+
+        if (currentElement % 2 === 0) {
+            sumEven += currentElement;
+
+            return;
         }
+
+        sumOdd += currentElement;
     });
 
-    console.log("even", sumEven, "odd", sumOdd);
+    var verifyCode = Math.round((sumEven > sumOdd) ? (sumEven - sumOdd) / 2 : (sumOdd - sumEven) / 2);
 
-    var verifyCode = 0;
-    if (sumEven > sumOdd) {
-        verifyCode = (sumEven - sumOdd) / 2;
-    } else {
-        verifyCode = (sumOdd - sumEven) / 2;
-    }
-
-    verifyCode = Math.round(verifyCode);
-
-    console.log("verifyCode", verifyCode);
     return code === verifyCode;
 };
 

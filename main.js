@@ -20,3 +20,4 @@ app.post("/api/proposta/validar", function (req, res) {
 
 })
 app.listen(port);
+
